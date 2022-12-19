@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/forum_post_model.dart';
+import '../providers/username_provider/username_provider.dart';
 import '../widgets/forum_post.dart';
 import '../widgets/send_dialog.dart';
 
@@ -12,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+  String? _username;
   final List<ForumPostModel> _posts = [
     ForumPostModel(
       id: 'id',
@@ -36,9 +39,11 @@ class _MyHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _username = Provider.of<UsernameProvider>(context).username;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('your_username'),
+        title: _username != null ? Text(_username!) : null,
         actions: [
           IconButton(
             onPressed: () => {},
