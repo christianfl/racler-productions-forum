@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'user_avatar.dart';
+
 class SendDialog extends StatelessWidget {
   const SendDialog({
     super.key,
@@ -16,6 +18,7 @@ class SendDialog extends StatelessWidget {
           ),
         ),
       ),
+      leading: const UserAvatar(),
       trailing: IconButton(
         onPressed: () => {},
         icon: const Icon(
