@@ -1,44 +1,59 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:forum/models/forum_post_model.dart';
 
 class ForumPostProvider with ChangeNotifier {
+  static const _firestoreCollection = 'posts';
+  static const _postLimit = 10;
+
   List<ForumPostModel>? _posts;
 
   List<ForumPostModel>? get posts => _posts;
 
   ForumPostProvider() {
-    _loadFromFirestore();
+    fetch();
   }
 
   /// Loads the posts from Firestore into the provider
-  _loadFromFirestore() async {
-    // TODO: Implement using Firestore. Currently only mocked.
+  fetch() async {
+    _posts = null;
+    notifyListeners();
 
-    // Wait 1 sec for better UX
-    await Future.delayed(const Duration(seconds: 1));
+    final db = FirebaseFirestore.instance;
 
-    _posts = [
-      ForumPostModel(
-        id: 'id',
-        createdBy: 'aabchdhd',
-        createdAt: DateTime.now(),
-        text:
-            'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-      ),
-      ForumPostModel(
-        id: 'id',
-        createdBy: 'bhdhsaka',
-        createdAt: DateTime.now(),
-        text: 'Hallo Welt!',
-      ),
-      ForumPostModel(
-        id: 'id',
-        createdBy: 'ifhdhusush',
-        createdAt: DateTime.now(),
-        text: 'Hey!',
-      ),
-    ];
+    // Wait 0.5 sec for better UX
+    Future delay = Future.delayed(const Duration(milliseconds: 500));
+
+    // Fetch the posts from Firestore
+    Future fetchPosts = db
+        .collection(_firestoreCollection)
+        .limit(_postLimit)
+        .orderBy('createdAt', descending: true)
+        .get()
+        .then((collection) {
+      final documents = collection.docs;
+
+      List<ForumPostModel> tempPosts = [];
+
+      for (var document in documents) {
+        tempPosts.add(ForumPostModel.fromJson(document.data()));
+      }
+
+      _posts = tempPosts;
+    });
+
+    // Wait at least one second before showing fetched posts
+    await Future.wait([delay, fetchPosts]);
 
     notifyListeners();
+  }
+
+  /// Add a post
+  addPost(ForumPostModel post) async {
+    // TODO: Implement using Firestore
+
+    // final db = FirebaseFirestore.instance;
+
+    // await db.collection(_firestoreCollection).add(post.toJson());
   }
 }

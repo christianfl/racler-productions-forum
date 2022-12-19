@@ -25,7 +25,9 @@ class _MyHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     _username = Provider.of<UsernameProvider>(context).username;
-    _posts = Provider.of<ForumPostProvider>(context).posts;
+
+    final postsProvider = Provider.of<ForumPostProvider>(context);
+    _posts = postsProvider.posts;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +42,7 @@ class _MyHomePageState extends State<HomePage> {
             : null,
         actions: [
           IconButton(
-            onPressed: () => {},
+            onPressed: () => postsProvider.fetch(),
             icon: const Icon(Icons.refresh),
           )
         ],
