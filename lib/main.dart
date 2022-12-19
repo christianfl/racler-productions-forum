@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/home_page.dart';
+import 'providers/forum_post/forum_post_provider.dart';
 import 'providers/username_provider/username_provider.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UsernameProvider()),
+        ChangeNotifierProvider(create: (context) => ForumPostProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

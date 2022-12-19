@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../models/forum_post_model.dart';
+import '../providers/forum_post/forum_post_provider.dart';
 import '../providers/username_provider/username_provider.dart';
 import '../widgets/forum_post.dart';
 import '../widgets/send_dialog.dart';
 
 class HomePage extends StatefulWidget {
+  static const _maxPosts = 10;
+
   const HomePage({super.key});
 
   @override
@@ -15,31 +19,12 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   String? _username;
-  final List<ForumPostModel> _posts = [
-    ForumPostModel(
-      id: 'id',
-      createdBy: 'aabchdhd',
-      createdAt: DateTime.now(),
-      text:
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-    ),
-    ForumPostModel(
-      id: 'id',
-      createdBy: 'bhdhsaka',
-      createdAt: DateTime.now(),
-      text: 'Hallo Welt!',
-    ),
-    ForumPostModel(
-      id: 'id',
-      createdBy: 'ifhdhusush',
-      createdAt: DateTime.now(),
-      text: 'Hey!',
-    ),
-  ];
+  List<ForumPostModel>? _posts;
 
   @override
   Widget build(BuildContext context) {
     _username = Provider.of<UsernameProvider>(context).username;
+    _posts = Provider.of<ForumPostProvider>(context).posts;
 
     return Scaffold(
       appBar: AppBar(
@@ -56,11 +41,20 @@ class _MyHomePageState extends State<HomePage> {
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: _posts.length,
+              itemCount: _posts == null ? HomePage._maxPosts : _posts!.length,
               itemBuilder: (BuildContext context, int index) {
-                return ForumPost(
-                  post: _posts[index],
-                );
+                if (_posts == null) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.black12,
+                    highlightColor: Colors.white,
+                    loop: 3,
+                    child: const ForumPost(),
+                  );
+                } else {
+                  return ForumPost(
+                    post: _posts![index],
+                  );
+                }
               },
             ),
           ),
