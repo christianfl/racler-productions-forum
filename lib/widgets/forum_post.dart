@@ -18,28 +18,44 @@ class ForumPost extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(8.0),
       color: Colors.green,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${post?.createdBy}',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                if (post?.createdAt != null)
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: const LinearGradient(
+            colors: [
+              Colors.green,
+              Colors.blue,
+            ],
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.5, 1.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Text(
-                    DateFormat('dd.MM.yyyy – kk:mm:ss').format(post!.createdAt),
+                    '${post?.createdBy}',
                     style: Theme.of(context).textTheme.caption,
                   ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text('${post?.text}'),
-          ],
+                  if (post?.createdAt != null)
+                    Text(
+                      DateFormat('dd.MM.yyyy – kk:mm:ss')
+                          .format(post!.createdAt),
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text('${post?.text}'),
+            ],
+          ),
         ),
       ),
     );

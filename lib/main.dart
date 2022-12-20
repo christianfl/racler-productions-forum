@@ -28,9 +28,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ForumPostProvider()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Forum',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: const Color(0xff006064),
         ),
         home: const HomePage(),
       ),
