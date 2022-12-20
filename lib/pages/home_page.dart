@@ -7,7 +7,7 @@ import '../providers/forum_post/forum_post_provider.dart';
 import '../providers/username_provider/username_provider.dart';
 import '../widgets/forum_post.dart';
 import '../widgets/send_dialog.dart';
-import '../widgets/user_avatar.dart';
+import '../widgets/user_button.dart';
 
 class HomePage extends StatefulWidget {
   static const _maxPosts = 10;
@@ -31,15 +31,8 @@ class _MyHomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: _username != null
-            ? Row(
-                children: [
-                  const UserAvatar(radius: 16),
-                  const SizedBox(width: 5),
-                  Text(_username!),
-                ],
-              )
-            : null,
+        centerTitle: true,
+        title: _username != null ? const UserButton() : null,
       ),
       body: Column(
         children: [
