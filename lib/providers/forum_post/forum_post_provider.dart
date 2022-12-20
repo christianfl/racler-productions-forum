@@ -29,6 +29,8 @@ class ForumPostProvider with ChangeNotifier {
         .collection(_firestoreCollection)
         .limit(_postLimit)
         .orderBy('createdAt', descending: true)
+        //    .snapshots()
+        //    .listen((event) {});
         .get()
         .then((collection) {
       final documents = collection.docs;
@@ -48,12 +50,10 @@ class ForumPostProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Add a post
+  /// Persist a post to FireStore
   addPost(ForumPostModel post) async {
-    // TODO: Implement using Firestore
+    final db = FirebaseFirestore.instance;
 
-    // final db = FirebaseFirestore.instance;
-
-    // await db.collection(_firestoreCollection).add(post.toJson());
+    await db.collection(_firestoreCollection).add(post.toJson());
   }
 }
