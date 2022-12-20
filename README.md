@@ -2,6 +2,9 @@
 
 A new Flutter project.
 
+<p align="center">
+  <img src="./res/1.png" width="33%"/>
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
