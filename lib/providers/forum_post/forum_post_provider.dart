@@ -11,43 +11,36 @@ class ForumPostProvider with ChangeNotifier {
   List<ForumPostModel>? get posts => _posts;
 
   ForumPostProvider() {
-    fetch();
+    _listenForPosts();
   }
 
-  /// Loads the posts from Firestore into the provider
-  fetch() async {
+  /// Loads the posts from Firestore into the provider (listens and updates internal list when FireStore collection updates occur)
+  _listenForPosts() async {
     _posts = null;
     notifyListeners();
 
     final db = FirebaseFirestore.instance;
 
-    // Wait 0.5 sec for better UX
-    Future delay = Future.delayed(const Duration(milliseconds: 500));
+    // Wait 1 sec for better UX
+    await Future.delayed(const Duration(milliseconds: 1000));
 
-    // Fetch the posts from Firestore
-    Future fetchPosts = db
+    // Listen to posts collection from Firestore and updating interal provider list for posts
+    db
         .collection(_firestoreCollection)
         .limit(_postLimit)
         .orderBy('createdAt', descending: true)
-        //    .snapshots()
-        //    .listen((event) {});
-        .get()
-        .then((collection) {
-      final documents = collection.docs;
-
+        .snapshots()
+        .listen((event) {
       List<ForumPostModel> tempPosts = [];
 
-      for (var document in documents) {
+      for (var document in event.docs) {
         tempPosts.add(ForumPostModel.fromJson(document.data()));
       }
 
       _posts = tempPosts;
+
+      notifyListeners();
     });
-
-    // Wait at least one second before showing fetched posts
-    await Future.wait([delay, fetchPosts]);
-
-    notifyListeners();
   }
 
   /// Persist a post to FireStore

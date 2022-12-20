@@ -40,12 +40,6 @@ class _MyHomePageState extends State<HomePage> {
                 ],
               )
             : null,
-        actions: [
-          IconButton(
-            onPressed: () => postsProvider.fetch(),
-            icon: const Icon(Icons.refresh),
-          )
-        ],
       ),
       body: Column(
         children: [
