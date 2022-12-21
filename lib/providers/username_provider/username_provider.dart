@@ -11,7 +11,7 @@ class UsernameProvider with ChangeNotifier {
   SharedPreferences? _preferences;
 
   String? get username => _username;
-  String? get initials => _initials;
+  String get initials => getInitials(_username);
 
   UsernameProvider() {
     _loadFromSharedPreferences();
@@ -65,13 +65,17 @@ class UsernameProvider with ChangeNotifier {
     return list[i];
   }
 
-  String? get _initials {
-    if (_username == null) {
-      return null;
+  String getInitials(String? username) {
+    if (username == null) {
+      return '';
     } else {
-      String firstLetter = _username!.split('@')[1].substring(0, 1);
-      String secondLetter = _username!.split('_')[1].substring(0, 1);
-      return '$firstLetter$secondLetter'.toUpperCase();
+      try {
+        String firstLetter = username.split('@')[1].substring(0, 1);
+        String secondLetter = username.split('_')[1].substring(0, 1);
+        return '$firstLetter$secondLetter'.toUpperCase();
+      } catch (e) {
+        return '';
+      }
     }
   }
 }

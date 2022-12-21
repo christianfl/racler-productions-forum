@@ -27,7 +27,7 @@ class UserButton extends StatelessWidget {
     UsernameProvider usernameProvider = Provider.of<UsernameProvider>(context);
 
     return Card(
-      color: Colors.black45,
+      color: Colors.white10,
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
         onTap: () => _indicateCurrentUser(context),

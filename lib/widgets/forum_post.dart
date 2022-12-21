@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forum/models/forum_post_model.dart';
+import 'package:forum/widgets/user_avatar.dart';
 import 'package:intl/intl.dart';
 
 class ForumPost extends StatelessWidget {
@@ -40,15 +41,24 @@ class ForumPost extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${post?.createdBy}',
-                    style: Theme.of(context).textTheme.caption,
+                  Row(
+                    children: [
+                      UserAvatar(username: post?.createdBy, radius: 8),
+                      const SizedBox(width: 5),
+                      Text(
+                        '${post?.createdBy}',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ],
                   ),
                   if (post?.createdAt != null)
                     Text(
-                      DateFormat('dd.MM.yyyy – kk:mm:ss')
+                      DateFormat('dd.MM.yyyy  |  kk:mm:ss')
                           .format(post!.createdAt),
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          ?.copyWith(fontSize: 10),
                     ),
                 ],
               ),

@@ -30,8 +30,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Forum',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: const Color(0xff006064),
+          colorScheme: const ColorScheme.dark(),
+          primarySwatch: Colors.red,
+          scaffoldBackgroundColor: const Color.fromARGB(255, 9, 55, 56),
         ),
         home: const HomePage(),
       ),
